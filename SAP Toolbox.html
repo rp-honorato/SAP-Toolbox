@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8">
+  <title>SAP Toolbox</title>
+  <style>
+    .myBackgroundStyle{
+      background-image: url("https://www.pixelstalk.net/wp-content/uploads/2016/10/Building-Wallpapers-HD-Free-Download.jpg");
+      background-size: auto;
+      background-repeat: none;
+       max-width: auto;
+       max-height: auto;
+    }
+  </style>
+</head>
+<body class="sapUiBody" role="application">
+  <div id="content"></div>
+
+  <script id="sap-ui-bootstrap"
+    src="https://sapui5.hana.ondemand.com/sdk/resources/sap-ui-core.js"
+    data-sap-ui-theme="sap_belize_plus"
+    data-sap-ui-libs="sap.m, sap.ui.core"
+    data-sap-ui-compatversion="edge"
+    data-sap-ui-excludejquerycompat="true"
+    data-sap-ui-xx-waitfortheme="init">
+    </script>
+
+  <script type="text/javascript">
+    var oApp = new sap.m.App("myApp");
+    
+   var oPage = new sap.m.Page();
+      oPage.addStyleClass("myBackgroundStyle");
+      
+    // Criar um TileContainer para conter os tiles
+    var oTileContainer = new sap.m.TileContainer();
+
+    // Dados dos tiles
+    var tilesData = [
+   
+      { title: "UI5 Documentation", icon: "sap-icon://document-text", footer: "Official Documentation", url: "https://sapui5.hana.ondemand.com/#/topic" },
+      { title: "SAP Fiori Guidelines", icon: "sap-icon://sap-ui5", footer: "Design Guide", url: "https://experience.sap.com/fiori-design/" },
+      { title: "SAP Fiori Apps Reference Library", icon: "sap-icon://business-objects-explorer", footer: "Library Apps", url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/" },
+      { title: "Icon Explorer", icon: "sap-icon://palette", footer: "Icons to SAP apps", url: "https://sapui5.hana.ondemand.com/sdk/test-resources/sap/m/demokit/iconExplorer/webapp/index.html#" },
+      { title: "SAP Live Editor", icon: "sap-icon://source-code", footer: "Edit in your Browser", url: "https://sapui5.hana.ondemand.com/#/liveEditor" },
+      { title: "Chat GPT", icon: "sap-icon://message-popup", footer: "AI Chat Bot", url: "https://chat.openai.com/" },
+      
+
+    ];
+
+    // Criar os tiles e adicioná-los ao TileContainer
+    for (var i = 0; i < tilesData.length; i++) {
+      var tileData = tilesData[i];
+      var oTile = new sap.m.StandardTile({
+        title: tileData.title,
+        icon: tileData.icon,
+        info: tileData.footer,
+        press: function (data) {
+          return function () {
+            window.open(data.url, '_blank'); // Abre a URL em uma nova aba
+          };
+        }(tileData)
+      });
+      oTileContainer.addTile(oTile);
+    }
+    oTileContainer.addStyleClass("myBackgroundStyle");
+    // Adicionar o TileContainer a uma página
+    var oPage = new sap.m.Page("page1", {
+      title: "SAP Toolbox",
+      content: [oTileContainer]
+    });
+
+    // Adicionar rodapé à página
+    var oButtonInFooter = new sap.m.Button({
+      text: "Github",
+      type: sap.m.ButtonType.Transparent,
+      press: function () {
+        window.open("https://github.com/rp-honorato", '_blank'); // Substitua pela URL desejada
+      }
+    });
+
+// Adicionar relógio ao rodapé no lado esquerdo
+var clockElement = new sap.m.Text({ id: "clock" });
+var oFooter = new sap.m.Bar({
+  contentLeft: [clockElement], // Mover o relógio para o lado esquerdo
+  contentRight: [oButtonInFooter],   // Manter o botão GitHub no lado direito
+});
+oFooter.addStyleClass("footer-bar"); 
+oPage.setFooter(oFooter); 
+
+// Função para atualizar o relógio
+function updateClock() {
+  var now = new Date();
+  var formattedTime = now.toLocaleTimeString();
+  clockElement.setText(formattedTime);
+}
+
+// Atualizar o relógio a cada segundo
+updateClock();
+setInterval(updateClock, 1000);
+
+oApp.addPage(oPage);
+oApp.placeAt("content");
+
+  </script>
+</body>
+
+</html>
